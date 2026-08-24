@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcoming Landing for the Signed-Out Visitor — Optimum Stars</title>
+<style>
+  :root{--ink:#1c2733;--ink-soft:#43525f;--paper:#faf6ef;--card:#fff;
+        --line:#e7ddcd;--accent:#c8632f;--ok:#2a8c79;--bad:#cf4b46;--warn:#b8860b;
+        --code-bg:#efe7d8;}
+  *{box-sizing:border-box}
+  html{color-scheme:light;scrollbar-color:#8f7a60 #ece2d0}
+  ::-webkit-scrollbar{width:13px;height:13px}
+  ::-webkit-scrollbar-track{background:#ece2d0}
+  ::-webkit-scrollbar-thumb{background:#8f7a60;border-radius:7px;border:3px solid #ece2d0}
+  body{margin:0;background:var(--paper);color:var(--ink);line-height:1.6;font-size:17px;
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       overflow-wrap:break-word}
+  .wrap{max-width:820px;margin:0 auto;padding:0 22px 90px}
+  h1,h2,h3{font-family:Georgia,serif;line-height:1.2}
+  h1{font-size:38px;margin:8px 0 12px}
+  h2{font-size:26px;margin:52px 0 6px;border-bottom:2px solid var(--line);padding-bottom:8px}
+  h3{font-size:19px;margin:26px 0 6px}
+  p{margin:12px 0}
+  a{color:var(--accent);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+  header.hero{background:#22323f;color:#f6efe4;padding:52px 0 40px}
+  header.hero a{color:#e6b98c}
+  .kicker{text-transform:uppercase;letter-spacing:.18em;font-size:12px;color:#e6b98c;font-weight:700;margin:0}
+  .lede{font-family:Georgia,serif;font-style:italic;font-size:20px;color:#dfd3c0;margin:0}
+  .provenance{margin-top:22px;font-family:"SF Mono",Menlo,monospace;font-size:11px;
+    line-height:1.55;color:rgba(246,239,228,.42);letter-spacing:.01em}
+  .provenance b{color:rgba(230,185,140,.6);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+  code{background:var(--code-bg);color:var(--ink);border-radius:5px;padding:1px 6px;font-size:.85em;
+       font-family:"SF Mono",Menlo,monospace;overflow-wrap:anywhere}
+  header.hero code{background:#33475a;color:#f6efe4}
+  .tag{display:inline-block;background:#33475a;color:#f6efe4;border-radius:999px;
+       padding:3px 12px;font-size:12px;margin:14px 6px 0 0;font-weight:600}
+  .tag.ok{background:#1f6b5c;color:#eafaf5}
+  .tag.hold{background:#7a5a0c;color:#fbf0d8}
+  .card{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;
+        padding:20px 22px;margin:14px 0}
+  .callout{background:#f2e0d3;color:var(--ink);border-left:5px solid var(--accent);
+           border-radius:10px;padding:16px 18px;margin:18px 0}
+  .warn{background:#fbf0d8;color:#4a3a15;border-left:5px solid var(--warn);
+        border-radius:10px;padding:16px 18px;margin:18px 0}
+  .warn b{color:#7a5a0c}
+  .warn code{background:#f2e3c2;color:#4a3a15}
+  .item{padding:11px 0;border-bottom:1px solid var(--line)}
+  .item:last-child{border-bottom:none;padding-bottom:0}
+  .item:first-child{padding-top:0}
+  .yes{color:var(--ok);font-weight:700}
+  ul,ol{padding-left:20px;margin:8px 0}
+  li{margin:7px 0}
+  .muted{color:var(--ink-soft);font-size:15px}
+  footer{border-top:2px solid var(--line);margin-top:56px;padding-top:22px;color:var(--ink-soft);font-size:15px}
+  @media (max-width:640px){
+    h1{font-size:29px}h2{font-size:23px}body{font-size:16px}.wrap{padding:0 16px 70px}
+  }
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <p class="kicker">Optimum Stars · implementation report</p>
+  <h1>Welcoming Landing for the Signed-Out Visitor</h1>
+  <p class="lede">The signed-out home page becomes a real front door — the features told as the one Monday evening the app actually runs.</p>
+  <p><span class="tag ok">193 frontend</span><span class="tag ok">74 e2e</span><span class="tag ok">gate exit 0</span><span class="tag">frontend-only</span><span class="tag hold">false witness caught &amp; redone</span><span class="tag hold">not deployed</span></p>
+  <p class="provenance"><b>discipline</b> pony-doc + caveman + html-doc (dispatched, this render) · implementation ran frontend-design, tdd, pony-code, verification / self_review
+    · <b>verification</b> as reported below: vitest 193 · e2e 74 · eslint / build exit 0 · repo gate exit 0</p>
+</div></header>
+
+<div class="wrap">
+
+<p class="muted">Requirements: <code>tasks/optimum-stars/OSWL_requirements.md</code> (<a href="OSWL_requirements.html">rendered</a>). Repo: <code>optimum-stars</code>. Frontend-only.</p>
+
+<h2>What shipped</h2>
+
+<p>The signed-out home page (<code>/groups</code>) was an icon, one heading, one dimmed sentence and a "Вход" button. It is now a real front door. The design's signature is a <b>match-night timeline</b>: the features are told as the one Monday evening the app actually runs — the teams come out priced, kickoff locks the odds and opens the secret ballot, closing it is the reveal with the written report, and by morning the table has sorted itself. That order is the product's real rule set, so the structure carries information rather than decoration. Under it, a three-step "how it starts" for a founder, a live league (<code>/optimum</code>) as the demonstration instead of screenshots, and a call to action that respects the server: registration when <code>registration_enabled</code> is true, sign-in when it is not. The register CTA deep-links the auth screen's register tab (<code>?tab=register</code>), so a stranger is not dropped on the login form of an account they do not have.</p>
+
+<div class="callout">
+Every sentence on the page was checked against the shipped code before it was written — including one that had to change: a new group gets no recurring slot, so the third step says "насрочи първия мач", not "Mondays appear by themselves".
+</div>
+
+<h2>VERIFIED</h2>
+
+<div class="card">
+  <div class="item"><span class="yes">✓</span> <b>Landing renders the promise, the four features and the founder sequence</b> — component tests assert the hero heading and the presence of класиране / коефициенти / играч на мача / player-page copy for a signed-out visitor.</div>
+
+  <div class="item"><span class="yes">✓</span> <b>CTA follows the server</b> — registration open → both CTA instances link <code>/auth?tab=register</code>; closed → both link <code>/auth</code>. Pinned per-instance, since the CTA appears at the top and the bottom.</div>
+
+  <div class="item"><span class="yes">✓</span> <b>The register deep-link lands on the register form</b> — the auth screen's tabs mount only after config arrives, so the uncontrolled <code>defaultValue</code> reads the param at exactly the right moment; the browser journey asserts the name field and Регистрация button are visible after the click.</div>
+
+  <div class="item"><span class="yes">✓</span> <b>Live example works</b> — component test pins the <code>/optimum</code> href; the browser journey clicks it and asserts the league's public table renders.</div>
+
+  <div class="item"><span class="yes">✓</span> <b>A signed-in visitor gets none of it</b> — my-leagues renders, no landing copy, and the landing's config read never fires.</div>
+
+  <div class="item"><span class="yes">✓</span> <b>Phone-first</b> — the browser journey runs at 375×812 and asserts <code>scrollWidth &lt;= innerWidth</code>.</div>
+
+  <div class="item"><span class="yes">✓</span> <b>Both colour schemes</b> — screenshots taken at 375px in light and dark via Playwright and reviewed; only Mantine semantic colours are used, no raw hex.</div>
+
+  <div class="item"><span class="yes">✓</span> <b>Suites</b> — frontend vitest <b>30 files, 193 tests</b>; eslint exit 0; build exit 0; full e2e <b>74 passed</b> (API + browser) against the containerised stack; repo gate over frontend + e2e <b>exit 0</b>. No backend file changed.</div>
+</div>
+
+<h3>Practices dispatched</h3>
+
+<ul>
+  <li><b><code>frontend-design</code></b> — dispatched before any UI was written; produced the match-night-timeline direction and the restraint rules (teal only on CTAs and bullets, no new fonts, one signature element). Self-critique via screenshots caught the hero title echoing verbatim in the first timeline entry; it now reuses the app's own phase name "Съставите са готови".</li>
+  <li><b><code>superpowers:test-driven-development</code></b> — three landing tests written first and red, then implementation, then green. Mutation witnesses at both tiers afterwards.</li>
+  <li><b><code>pony-code</code></b> — no new dependencies, no new route, no backend surface; the landing is a component in the page that owns it; the copy is the feature list, so no imagery pipeline.</li>
+  <li><b><code>verification</code> / <code>self_review</code></b> — every claim above re-run fresh; quality-lens audit inline over the diff.</li>
+</ul>
+
+<h2>SELF-ATTESTED</h2>
+
+<div class="warn">
+<p style="margin:0"><b>I produced a false test witness and caught it only because the result looked too good.</b> The first browser-tier mutation run came back green against a supposedly gutted landing. The component tier had gone red, so I investigated instead of shrugging: the mutation did not compile, the Docker image build failed, <code>docker compose up --build</code> left the <i>old</i> container serving the real landing — and my <code>&gt;/dev/null</code> swallowed the error. The "witness" had run against unmutated code. I redid it with a compiling mutation, confirmed the served bundle had actually changed by grepping the asset over HTTP before running the test, and got a real red, then a real green on restore. The lesson is §9 of the house test rules wearing my own clothes: a gate that cannot run is indistinguishable from one that passes, and hiding build output is how you stop being able to tell.</p>
+</div>
+
+<h3>Smells kept, with reasons</h3>
+
+<ul>
+  <li><b><code>cfg?.registration_enabled ?? false</code> is a fallback</b> — while config loads, the page shows the sign-in CTA rather than nothing. It is the pre-existing idiom in <code>AuthPage</code>, it fails closed (login always works), and a loading skeleton for a half-second flicker is machinery the page does not need.</li>
+  <li><b>The landing lives inside <code>HomePage.tsx</code></b> (~250 lines total) rather than its own file — it is the signed-out branch of that page, the file is under the size guidance, and the house pattern keeps a page's variants in the page.</li>
+  <li><b>The copy hardcodes <code>/optimum</code> as the live example.</b> True today and for any foreseeable deployment; a config-driven "showcase league" is speculative machinery for a second host that does not exist. The open question in the requirements records it.</li>
+  <li><b><code>Вход</code> remains in the header (Shell) untouched</b> — the requirements name it the secondary path; no change was needed, so none was made.</li>
+</ul>
+
+<h3>Skipped and why</h3>
+
+<p>The root redirect (<code>/</code> → <code>/optimum</code>) is untouched by the documented decision; the signed-in page structure untouched beyond what the journey needed (nothing, as the create form already sits there); no <code>security_review</code> — pinned false in the requirements, and the change adds a query parameter read in one place and no input handling.</p>
+
+<div class="warn">
+<p style="margin:0"><b>Not deployed.</b> The change is committed to nothing yet — it sits in the working tree awaiting the push/deploy decision, per this session's pattern of the user calling that explicitly.</p>
+</div>
+
+<footer>
+  <p class="muted">Implementation report — Welcoming Landing for the Signed-Out Visitor. Requirements: <code>tasks/optimum-stars/OSWL_requirements.md</code> (<a href="OSWL_requirements.html">rendered</a>). Repo: <code>optimum-stars</code>.</p>
+</footer>
+
+</div>
+</body>
+</html>
