@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSRE — Roster Editor — Implementation Report</title>
+<style>
+:root{--bg:#f7f6f3;--card:#fff;--ink:#1b2430;--muted:#5d6b7a;--rule:#e2e0da;
+  --accent:#0f7a5f;--warn:#8a5a12;--warn-soft:#fdf1dc;--head:#10241d;--code-bg:#eeece6;}
+@media (prefers-color-scheme:dark){:root{--bg:#14171a;--card:#1c2024;--ink:#e9ecef;--muted:#a0aab4;
+  --rule:#2c3238;--accent:#4dd4a8;--warn:#e0b464;--warn-soft:#2e2515;--code-bg:#262b30;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.55 -apple-system,"Segoe UI",Roboto,Helvetica,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 56px}
+header.hero{background:var(--head);color:#fff;padding:40px 0 36px;margin-bottom:28px}
+header.hero .wrap{padding-bottom:0}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#4dd4a8}
+h1{font-size:clamp(1.7rem,6vw,2.3rem);line-height:1.1;letter-spacing:-.02em;margin:10px 0 8px}
+header.hero p{color:rgba(255,255,255,.72);margin:0;font-size:.95rem}
+header.hero a{color:#4dd4a8}
+h2{font-size:1.15rem;margin:34px 0 10px}h3{font-size:.95rem;margin:20px 0 6px}
+p{margin:0 0 10px}ul{padding-left:20px;margin:0 0 12px}li{margin:0 0 7px}
+.muted{color:var(--muted)}
+a{color:var(--accent);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+code{background:var(--code-bg);color:var(--ink);padding:1px 5px;border-radius:4px;
+  font:.86em/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;margin:0 0 12px}
+.row{display:flex;gap:12px;align-items:baseline}
+.row .k{flex:0 0 116px;font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted)}
+.row .v{flex:1;min-width:0}
+.ok{color:var(--accent);font-weight:700}
+.flag{background:var(--warn-soft);color:var(--warn);border:1px solid rgba(138,90,18,.25);
+  border-radius:8px;padding:12px 14px;margin:0 0 12px}
+footer{border-top:1px solid var(--rule);margin-top:32px;padding-top:14px;font-size:.82rem;color:var(--muted)}
+@media (max-width:640px){.row{display:block}.row .k{margin-bottom:2px}}
+</style></head><body>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">OSRE · optimum-stars</div>
+  <h1>One way into a player, and the row says who is linked</h1>
+  <p>Commit <code>998a64d</code>. Screenshots:
+     <a href="https://vasilkosturski.github.io/vk-docs/roster-editor/">vk-docs/roster-editor</a> (public).</p>
+</div></header>
+
+<div class="wrap">
+
+<h2>Verified</h2>
+
+<div class="card"><div class="row"><div class="k">One control</div><div class="v">
+Three inline row modes (Снимка / Преименувай / Профил) → one <code>Редактирай</code> per row opening a bottom sheet with photo, name, description, account. Screenshot at 375px, both schemes, overflow <span class="ok">0px</span>.</div></div></div>
+
+<div class="card"><div class="row"><div class="k">Linked on the row</div><div class="v">
+New <code>GET /api/admin/accounts</code> → player→address pairs. Badge is labelled <code>{name} гласува от профил</code>, so a screen reader answers "which men" too. The <code>pony:</code> comment recording this shortcut is gone with it.</div></div></div>
+
+<div class="card"><div class="row"><div class="k">security_review</div><div class="v">
+The address is the whole payload and <code>/api/players</code> is <b>not</b> gated, so the read is its own admin-only door. Four refusals asserted, each over the serialised body (§4): signed out, signed in but not an admin here, and an admin of another league who gets 200 and none of these addresses.
+<br><b>Witnesses:</b> dropping <code>require_admin</code> → the two refusal tests fail. Dropping <code>Player.group_id == group_of(session)</code> → the tenant test fails.
+<br><code>bio</code> on the public roster is not a new exposure — <code>GET /api/players/{id}</code> has always served it.</div></div></div>
+
+<div class="card"><div class="row"><div class="k">tdd</div><div class="v">
+<code>Skill('test-quality')</code> dispatched before writing. Placement: permission rules → integration (need a caller and a row); screen states → component; one browser journey for the 375px sheet. Backend RED (5 failed, no endpoint) → GREEN. Frontend RED (spy on a method that did not exist) → GREEN.</div></div></div>
+
+<div class="card"><div class="row"><div class="k">e2e_tests</div><div class="v">
+<code>pytest e2e/ -q</code> → <span class="ok">73 passed</span>, including a new journey that opens the sheet at 375px, links an address, and reads the badge back.</div></div></div>
+
+<div class="card"><div class="row"><div class="k">verification</div><div class="v">
+Backend <span class="ok">812 passed</span>. Frontend <span class="ok">210 passed</span>. <code>gates.sh</code> backend+frontend+e2e → <span class="ok">exit 0</span>. mypy clean over 51 files.</div></div></div>
+
+<div class="card"><div class="row"><div class="k">pony-code</div><div class="v">
+No <code>linked</code> flag added to the public payload — the admin read already answers it, so the public shape is untouched. Bio read through a <code>bios_for</code> map mirroring the existing <code>photos_for</code>, rather than a new per-row request or a new domain type. No new dependency; Mantine's <code>Drawer</code> is what the sheet is.</div></div></div>
+
+<h2>Self-attested</h2>
+
+<h3>Design</h3>
+<p class="muted">Seam: <code>PlayerEditor</code> takes a <code>RosterPlayer</code> and an <code>email | null</code> and reports changes upward — it owns no reads, so the page stays the only thing that knows how the two lists are fetched. A fourth property on a man is a field in one component, not another row mode. <code>bio</code> stayed off <code>PlayerRecord</code> deliberately: that type is what the standings engine sees.</p>
+
+<h3>Smell audit</h3>
+<ul>
+<li><b>Fixed — the one that mattered.</b> I first wrote the accounts read as <code>.catch(() =&gt; [])</code>. That makes a failed read indistinguishable from "nobody is linked" — a wrong fact about the league, stated confidently, on the screen that exists to fix that mapping. Same class as the two failed-read bugs already fixed in this repo. It now shows the failure and still renders the roster. Mutation-checked.</li>
+<li><b>Fixed</b> — I deleted <code>ClaimQueue</code> while replacing the block above it and only <code>tsc</code> noticed. Restored from <code>HEAD</code>, with its comment corrected: it referred to "the control above", which no longer exists.</li>
+<li><b>Fixed</b> — test doubles for <code>linkAccount</code>/<code>unlinkAccount</code> returned <code>{ok:true}</code> and <code>{id,name}</code>; both endpoints answer with a full <code>RosterPlayer</code>. §8. Now built from the real fixtures.</li>
+<li><b>Kept</b> — three <code>useAsyncAction</code>s in the sheet (save / link / unlink). One shared action spins the button you did not press and prints one error above both; the match editor already made that trade.</li>
+<li><b>Kept</b> — <code>new Map(...)</code> rebuilt per render. Twenty rows; memoising it would be ceremony.</li>
+<li><b>Kept</b> — the sheet is full-height rather than content-height on desktop. It is the phone pattern the requirement asked for, and full-height is the better behaviour when a keyboard opens over it.</li>
+<li>Deprecated-API checker: pyright ran inside <code>gates.sh</code> as part of the backend block, exit 0.</li>
+</ul>
+
+<div class="flag">
+<b>Process failure worth naming.</b> I changed <code>/api/players</code> and ran only two test files, not the backend suite. The endpoint 500'd on <code>PlayerRecord.bio</code> and the <b>e2e caught it</b>, several steps later, after a container rebuild. The suite would have caught it in seconds. Nothing shipped broken, but the order was wrong: change an endpoint, run its suite.
+</div>
+
+<h3>Skipped &amp; why</h3>
+<ul>
+<li><b>Ratings in the sheet.</b> Out of scope by the requirement — per-admin and secret, with their own screen.</li>
+<li><b>The claims queue stays outside.</b> It is about several players at once; folding it in would mean opening each man to learn whether anyone asked.</li>
+<li><b>Not pushed.</b> Held with the landing redesign, which is also unpushed pending review.</li>
+</ul>
+
+<footer>
+Requirements: <code>tasks/optimum-stars/frontend-and-ui/OSRE_requirements.md</code> ·
+Dispatched: <code>pony-code</code>, <code>test-quality</code>, <code>code-quality</code>, <code>pony-doc</code>, <code>caveman</code>, <code>html-doc</code>.
+Run: <code>pytest tests/</code> (812), <code>vitest run</code> (210), <code>pytest e2e/</code> (73), <code>gates.sh</code>, mypy, ruff, Playwright ×2 schemes at 375px, 6 mutation witnesses.
+</footer>
+
+</div></body></html>
