@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Направи го админ — OSAP</title>
+<style>
+  :root{--ink:#1c2733;--ink-soft:#43525f;--paper:#faf6ef;--card:#fff;
+        --line:#e7ddcd;--accent:#c8632f;--ok:#2a8c79;--hero:#1b2d33;--hero-ink:#f6efe4;
+        --code-bg:#f0e7d8;--shot-bg:#e9e0d0;}
+  *{box-sizing:border-box}
+  html{color-scheme:light;scrollbar-color:#8f7a60 #ece2d0}
+  ::-webkit-scrollbar{width:13px;height:13px}
+  ::-webkit-scrollbar-track{background:#ece2d0}
+  ::-webkit-scrollbar-thumb{background:#8f7a60;border-radius:7px;border:3px solid #ece2d0}
+  body{margin:0;background:var(--paper);color:var(--ink);line-height:1.6;font-size:17px;
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  h1,h2{font-family:Georgia,serif;line-height:1.25}
+  code{background:var(--code-bg);color:var(--ink);padding:1px 5px;border-radius:4px;
+       font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em}
+  header.hero{background:var(--hero);color:var(--hero-ink);padding:42px 20px 32px;margin-bottom:30px}
+  .hero-in{max-width:760px;margin:0 auto}
+  .kicker{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+          color:#e0a878;margin:0 0 10px}
+  header.hero h1{margin:0;font-size:31px;color:var(--hero-ink)}
+  .lede{margin:14px 0 0;font-family:Georgia,serif;font-style:italic;font-size:18px;
+        color:#d8cdbc;max-width:60ch}
+  .note{margin:18px 0 0;font-size:13.5px;color:#a8bcb8;max-width:62ch}
+  figure{margin:0 0 40px}
+  figure h2{font-size:20px;margin:0 0 7px}
+  figure p{margin:0 0 14px;color:var(--ink-soft);font-size:15.5px}
+  .shot{background:var(--shot-bg);border:1px solid var(--line);border-radius:12px;padding:14px;
+        display:flex;justify-content:center}
+  .shot img{display:block;max-width:100%;height:auto;border-radius:7px;
+            box-shadow:0 3px 14px rgba(28,39,51,.17)}
+  .phone img{max-width:330px}
+  footer{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);
+         color:var(--ink-soft);font-size:14px}
+  @media (max-width:640px){
+    body{font-size:16px}
+    header.hero{padding:30px 16px 24px}
+    header.hero h1{font-size:24px}
+    .lede{font-size:16.5px}
+    .wrap{padding:0 16px 60px}
+    figure h2{font-size:18px}
+    .shot{padding:9px}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-in">
+    <p class="kicker">optimum-stars · OSAP</p>
+    <h1>„Там цъкаш го направи админ“</h1>
+    <p class="lede">Админ вече не се добавя само по имейл. Хората от твоя състав, които гласуват от профил, стоят на екрана — натискаш името.</p>
+    <p class="note">Всички хора тук са измислени и всички адреси са измислени. Екранът е истинският: снимките са правени в браузър срещу пълния стек — вписване през формата, нова лига, състав, свързани профили, натиснат бутон.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<figure>
+  <h2>Три кандидата, и нито един непознат</h2>
+  <p>Момчил, Антон и Стефан играят тук и гласуват от профил, затова екранът ги предлага — с името от състава и адреса под него. Радомир и Ивайло също играят, но нямат профил, затова ги няма. Христо е админът: неговият ред носи <b>Премахни админ</b>, не оферта.</p>
+  <div class="shot phone"><img src="01-candidates-phone.png" alt="Екранът Админи на телефон: три кандидата с бутон Направи админ и един админ"></div>
+</figure>
+
+<figure>
+  <h2>Търсенето хваща името от състава</h2>
+  <p>„Антон“ не е името от регистрационната форма и не е адресът. То е единственото име, което админът знае. Полето търси и по трите.</p>
+  <div class="shot phone"><img src="02-search-by-roster-name.png" alt="Търсене по Антон, което оставя един ред"></div>
+</figure>
+
+<figure>
+  <h2>Едно натискане</h2>
+  <p>Антон вече е админ: значка, <b>Премахни админ</b>, и офертата я няма. Вписва се точно същият ред в <code>group_admins</code>, който вписването по имейл прави — един вид админ, едно право.</p>
+  <div class="shot phone"><img src="03-after-promotion.png" alt="След натискането: Антон е с значка АДМИН и бутон Премахни админ"></div>
+</figure>
+
+<figure>
+  <h2>Откъдето идват адресите</h2>
+  <p>Редакторът на играчи вече показваше кой от кой профил гласува. Списъкът горе е точно същият набор, зад същата проверка — на екрана не се появява нищо, което админът не можеше да прочете и преди.</p>
+  <div class="shot phone"><img src="04-roster-editor.png" alt="Редакторът на играчи със значки за свързан профил"></div>
+</figure>
+
+<figure>
+  <h2>Същият екран на широк дисплей</h2>
+  <div class="shot"><img src="05-desktop.png" alt="Екранът Админи на широк дисплей"></div>
+</figure>
+
+<footer>
+  Едно нещо се оправи покрай снимките: значката се съкращаваше до „АДМ…“ на тесен екран, защото нямаше собствен <code>flex-shrink</code>. Сега се съкращава името, не значката.
+</footer>
+</div>
+</body>
+</html>
