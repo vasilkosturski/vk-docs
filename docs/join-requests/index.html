@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Заявки за влизане — OSJR</title>
+<style>
+  :root{--ink:#1c2733;--ink-soft:#43525f;--paper:#faf6ef;--card:#fff;
+        --line:#e7ddcd;--accent:#c8632f;--ok:#2a8c79;--bad:#cf4b46;
+        --hero:#1b2d33;--hero-ink:#f6efe4;--code-bg:#f0e7d8;--shot-bg:#e9e0d0;}
+  *{box-sizing:border-box}
+  html{color-scheme:light;scrollbar-color:#8f7a60 #ece2d0}
+  ::-webkit-scrollbar{width:13px;height:13px}
+  ::-webkit-scrollbar-track{background:#ece2d0}
+  ::-webkit-scrollbar-thumb{background:#8f7a60;border-radius:7px;border:3px solid #ece2d0}
+  body{margin:0;background:var(--paper);color:var(--ink);line-height:1.6;font-size:17px;
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  h1,h2{font-family:Georgia,serif;line-height:1.25}
+  code{background:var(--code-bg);color:var(--ink);padding:1px 5px;border-radius:4px;
+       font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em}
+  header.hero{background:var(--hero);color:var(--hero-ink);padding:42px 20px 32px;margin-bottom:30px}
+  .hero-in{max-width:760px;margin:0 auto}
+  .kicker{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+          color:#e0a878;margin:0 0 10px}
+  header.hero h1{margin:0;font-size:30px;color:var(--hero-ink)}
+  .lede{margin:14px 0 0;font-family:Georgia,serif;font-style:italic;font-size:18px;
+        color:#d8cdbc;max-width:60ch}
+  .note{margin:18px 0 0;font-size:13.5px;color:#a8bcb8;max-width:62ch}
+  h2{font-size:23px;margin:42px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--line)}
+  p{margin:0 0 15px}
+  ul{margin:0 0 15px;padding-left:22px}
+  li{margin:0 0 9px}
+  figure{margin:0 0 38px}
+  figure h3{font-family:Georgia,serif;font-size:19px;margin:0 0 6px;line-height:1.3}
+  figure p{margin:0 0 13px;color:var(--ink-soft);font-size:15.5px}
+  .shot{background:var(--shot-bg);border:1px solid var(--line);border-radius:12px;padding:13px;
+        display:flex;justify-content:center}
+  .shot img{display:block;max-width:320px;width:100%;height:auto;border-radius:7px;
+            box-shadow:0 3px 14px rgba(28,39,51,.17)}
+  .callout{background:var(--card);color:var(--ink);border:1px solid var(--line);
+           border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:15px 19px;margin:0 0 18px}
+  .callout.warn{border-left-color:var(--bad)}
+  .callout p:last-child{margin-bottom:0}
+  footer{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);
+         color:var(--ink-soft);font-size:14px}
+  @media (max-width:640px){
+    body{font-size:16px}
+    header.hero{padding:30px 16px 24px}
+    header.hero h1{font-size:24px}
+    .lede{font-size:16.5px}
+    .wrap{padding:0 16px 60px}
+    h2{font-size:20px}
+    figure h3{font-size:17.5px}
+    .shot{padding:9px}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-in">
+    <p class="kicker">optimum-stars · OSJR</p>
+    <h1>Хората вече могат да поискат да влязат</h1>
+    <p class="lede">Досега всеки вход в група минаваше през админ, който трябваше да знае, че някой иска, и да му знае имейла. Сега човекът казва, а админът само отсъжда.</p>
+    <p class="note">Всички хора и адреси тук са измислени. Екраните са истински — снимани в браузър срещу пълния стек: регистрация, нова лига, състав, натиснат бутон, одобрена заявка.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h2>Какво влезе</h2>
+<p><b>Три неща, едно от друго.</b> Списък с лигите, за да те намерят. Заявка за влизане, за човек, който още не е в никой състав. И число в хедъра, което казва на админа, че го чака работа.</p>
+<div class="callout">
+<p><b>Причината за третото.</b> Заявките „това съм аз“ работят от седмици. Никой не ги ползваше — единственият начин да разбереш, че някой е поискал, беше да отвориш „Играчи“ напосоки. Затова изглеждаше, че функцията липсва. Опашка, за която не ти казват, е опашка, която никой не изпразва.</p>
+</div>
+
+<figure>
+  <h3>1. Намираш лигата</h3>
+  <p>Публичен списък на <code>golche.bg/leagues</code>, с търсачка. Само име и адрес — нищо за хората вътре. Страниците на лигите и досега бяха отворени за всеки с линк; новото е, че вече могат да се <em>намерят</em>.</p>
+  <div class="shot"><img src="01-directory.png" alt="Списъкът с лиги, филтриран по „Сряда“"></div>
+</figure>
+
+<figure>
+  <h3>2. Искаш да влезеш</h3>
+  <p>Влязъл си в профила си, отваряш групата, натискаш. Бутонът го няма за човек, който вече играе там, нито за админа, нито за неразпознат посетител.</p>
+  <div class="shot"><img src="02-join-offer.png" alt="Страницата на лигата с бутон „Искам да вляза“"></div>
+</figure>
+
+<figure>
+  <h3>3. Чакаш</h3>
+  <p>Заявката не ти дава нищо — нито глас, нито място в класирането. Само ред в таблица, който чака админ. Може и да я оттеглиш.</p>
+  <div class="shot"><img src="03-pending.png" alt="„Заявката ти чака одобрение от админ“ с бутон Откажи"></div>
+</figure>
+
+<figure>
+  <h3>4. Админът разбира — без да отваря нищо</h3>
+  <p>Оранжевото число до „АДМИН“ в хедъра. Едно число за двете опашки: и заявките за влизане, и „това съм аз“. Няма го, когато няма работа — значка, която стои винаги, е значка, която никой не гледа.</p>
+  <div class="shot"><img src="04-badge.png" alt="Хедърът с оранжева значка 2 до АДМИН"></div>
+</figure>
+
+<figure>
+  <h3>5. Отсъжда</h3>
+  <p>От „Играчи“, до заявките „това съм аз“ — едно място за гледане. Всеки ред казва кой е поискал и от кой адрес.</p>
+  <div class="callout warn">
+    <p><b>Падащото меню е най-важното нещо на екрана.</b> Половината хора, които искат да влязат, са в състава от месеци под име, което админът е написал. Ако одобриш „нов играч“, лигата остава със същия човек два пъти. Затова питаме кой е — по подразбиране нов, но списъкът е там.</p>
+  </div>
+  <div class="shot"><img src="05-queue.png" alt="Заявки за влизане с падащо меню „нов играч“ и бутони Приеми и Откажи"></div>
+</figure>
+
+<figure>
+  <h3>6. Влязъл е</h3>
+  <p>Става обикновен играч в състава — не админ. Числото пада с него.</p>
+  <div class="shot"><img src="06-after-approval.png" alt="След одобрението: един ред по-малко в опашката"></div>
+</figure>
+
+<h2>Какво нарочно не влезе</h2>
+<ul>
+  <li><b>Отделно „член“, който не е играч.</b> Влизането значи място в състава. В приложението няма какво да прави човек, който е член и не играе — страниците на лигите и без това са публични, а за глас трябва име в състава.</li>
+  <li><b>Имейл или известие.</b> Числото е на екрана; нищо не се изпраща.</li>
+  <li><b>Излизане от група.</b> Отвързването си остава на админа — то е единственото действие, което мести глас от един човек на друг.</li>
+</ul>
+
+<h2>Какво бих отбелязал на ревю</h2>
+<ul>
+  <li><b>Списъкът с лиги е ново публично разкритие</b> — вече всеки може да изброи имената на всички групи. Ти го избра нарочно; отбелязвам го, защото е същият клас решение като списъка с акаунти, който махнахме.</li>
+  <li><b>Две опашки, два почти еднакви компонента.</b> Различават се по това, че заявката за влизане има падащо меню, а „това съм аз“ никога няма да има — вече си казва кой е. Ако се сближат пак, се слива.</li>
+  <li><b>Значката пази състояние извън React.</b> Хедърът и опашката не са в роднинска връзка; малък абонамент е по-евтин от контекст през целия рутер. Но е глобално състояние и се брои за такова.</li>
+</ul>
+
+<footer>
+Изисквания: <code>OSJR_requirements.md</code> · До момента: OSPA (админ свързва играч с профил), OSPC („това съм аз“), OSAP (направи го админ).
+</footer>
+</div>
+</body>
+</html>
