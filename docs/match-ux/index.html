@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Match page — UX findings</title>
+<style>
+  :root{--ink:#1c2733;--ink-soft:#43525f;--paper:#faf6ef;--card:#fff;
+        --line:#e7ddcd;--accent:#c8632f;--ok:#2a8c79;--bad:#cf4b46;--warn:#b3861f;
+        --hero:#1b2d33;--hero-ink:#f6efe4;--code-bg:#1b2d33;--code-ink:#e4dccd;}
+  *{box-sizing:border-box}
+  html{color-scheme:light;scrollbar-color:#8f7a60 #ece2d0}
+  ::-webkit-scrollbar{width:13px;height:13px}
+  ::-webkit-scrollbar-track{background:#ece2d0}
+  ::-webkit-scrollbar-thumb{background:#8f7a60;border-radius:7px;border:3px solid #ece2d0}
+  body{margin:0;background:var(--paper);color:var(--ink);line-height:1.6;font-size:16.5px;
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px 90px}
+  h1,h2,h3{font-family:Georgia,serif;line-height:1.25}
+  code{background:#f0e7d8;color:var(--ink);padding:1px 5px;border-radius:4px;
+       font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em}
+  pre{background:var(--code-bg);color:var(--code-ink);padding:14px 16px;border-radius:9px;
+      overflow-x:auto;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12.6px;
+      line-height:1.55;margin:0 0 16px}
+  header.hero{background:var(--hero);color:var(--hero-ink);padding:44px 20px 34px;margin-bottom:30px}
+  .hero-in{max-width:820px;margin:0 auto}
+  .kicker{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+          color:#e0a878;margin:0 0 10px}
+  header.hero h1{margin:0;font-size:31px;color:var(--hero-ink)}
+  .lede{margin:14px 0 0;font-family:Georgia,serif;font-style:italic;font-size:18px;
+        color:#d8cdbc;max-width:62ch}
+  .note{margin:18px 0 0;font-size:13px;color:#a8bcb8;max-width:64ch;
+        font-family:"SF Mono",Menlo,monospace;line-height:1.55}
+  h2{font-size:23px;margin:46px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--line)}
+  h3{font-size:18.5px;margin:34px 0 6px}
+  h3 .sev{display:inline-block;font-family:-apple-system,sans-serif;font-size:11px;
+          font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;
+          border-radius:999px;vertical-align:middle;margin-right:9px;color:#fff}
+  .s-high{background:var(--bad)} .s-med{background:var(--warn)} .s-low{background:var(--ink-soft)}
+  p{margin:0 0 14px}
+  ul{margin:0 0 14px;padding-left:22px}
+  li{margin:0 0 8px}
+  .fix{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ok);
+       border-radius:0 9px 9px 0;padding:13px 17px;margin:0 0 16px}
+  .fix b{color:var(--ok)}
+  .fix p:last-child{margin-bottom:0}
+  .good{border-left-color:var(--accent)}
+  .good b{color:var(--accent)}
+  .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:0 0 22px}
+  figure{margin:0}
+  figure img{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);
+             box-shadow:0 3px 12px rgba(28,39,51,.14);background:#fff}
+  figcaption{font-size:12.5px;color:var(--ink-soft);margin-top:6px;text-align:center}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);
+         color:var(--ink-soft);font-size:14px}
+  @media (max-width:640px){
+    body{font-size:16px}
+    header.hero{padding:32px 16px 26px}
+    header.hero h1{font-size:24px}
+    .wrap{padding:0 16px 60px}
+    h2{font-size:20px}
+    pre{font-size:11.6px}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-in">
+    <p class="kicker">optimum-stars · match page · UX findings</p>
+    <h1>Seven things, two of them silently wrong</h1>
+    <p class="lede">I drove a match through its whole life — scheduled, sides named, kickoff passed, result, reveal — and measured what each admin action does to the table.</p>
+    <p class="note">A real league on a real stack, 6 invented players, one game.<br>
+      Nothing here is fixed yet. Findings and recommendations only.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h2>The lifecycle, as it actually runs</h2>
+<pre>01 no lineups            phase "На разположение"                   blocked: result, reveal
+02 sides named, 21:00 past  "Гласуването е отворено"               blocked: reveal
+03 result recorded          "Приключил — гласуването е отворено"    blocked: nothing
+04 ballot closed            "Обявен играч на мача"                  blocked: delete, kickoff, lineups, result</pre>
+<div class="shots">
+  <figure><img src="01-no-lineups-top.png" alt="Match page with no line-ups"><figcaption>01 · no line-ups</figcaption></figure>
+  <figure><img src="02-lineups-kickoff-passed-top.png" alt="Voting open"><figcaption>02 · voting open</figcaption></figure>
+  <figure><img src="03-result-recorded-top.png" alt="Result recorded"><figcaption>03 · result in</figcaption></figure>
+  <figure><img src="04-revealed-top.png" alt="Man of the match revealed"><figcaption>04 · revealed</figcaption></figure>
+</div>
+<div class="fix good">
+  <p><b>What is already good, and worth not breaking.</b> The admin box is a numbered 1–5 list with „✓ готово" on the steps that are done, and every blocked control is greyed <em>with the server's own sentence above it</em> — „отвори гласуването, за да преместиш обявен мач". One rule, one wording, no TypeScript copy of it. That is why the screen is confusing rather than broken.</p>
+</div>
+
+<h2>The two that are silently wrong</h2>
+
+<h3><span class="sev s-high">high</span>Reopening the ballot rewrites the public table, without saying so</h3>
+<p>„Отвори гласуването" is a plain button with no confirmation. Pressing it strips every man-of-the-match point from the standings for as long as it is open — and the table is public.</p>
+<pre>revealed                    И2:6  И3:6  И4:4  И5:4  И1:3  И6:1
+after reopening the ballot  И1:3  И2:3  И3:3  И4:1  И5:1  И6:1
+after closing it again      И2:6  И3:6  И4:4  И5:4  И1:3  И6:1</pre>
+<p>It is reversible, and the derivation is right — points come from a <em>revealed</em> ballot, so an open one has none to give. But an admin who reopens to fix a typo has meanwhile republished a wrong league table, and nothing told him.</p>
+<div class="fix"><p><b>Fix.</b> Confirm before reopening, naming the consequence: „Докато гласуването е отворено, точките от анкетата изчезват от класирането." Cheap, and it is the only thing standing between a small correction and a wrong public table.</p></div>
+
+<h3><span class="sev s-high">high</span>Moving a player after the result silently moves his points</h3>
+<p>You were right that the sides stay editable after the match is finished. Measured — moving И3 from the winning side to the losing one:</p>
+<pre>before  И3: 6 points   (3 for the win + 3 for the ballot)
+after   И3: 4 points   (1 for the loss + 3 for the ballot)   ← no warning, no confirmation</pre>
+<p>This is a legitimate correction — "он всъщност игра с другите" is a real thing to fix. It is also the only control on the page that changes a man's points as a side effect, and it looks exactly like the one you use before the match to set the sides.</p>
+<div class="fix"><p><b>Fix.</b> Keep it editable, but once the match is finished make saving a lineup confirm and say what moves: „Мачът е приключил — смяната на състава променя точките на играчите." The phase is already known to the screen; it just is not used here.</p></div>
+
+<h2>The four that make it hard to use</h2>
+
+<h3><span class="sev s-med">medium</span>„нужни са поне 10" on a match that has already been played</h3>
+<p>Visible in shots 03 and 04: <b>„6 избрани · нужни са поне 10"</b>, under a game that was played 3v3 and whose result is recorded. It is the AI team generator's rule (<code>MIN_PLAYERS = 10</code>) leaking into a context where it means nothing — and it reads as "this match is invalid".</p>
+<div class="fix"><p><b>Fix.</b> The generator has no business on a played match. Hide it once the result is in, or at minimum drop the count and the threshold once <code>match.finished</code>.</p></div>
+
+<h3><span class="sev s-med">medium</span>The teams editor opens on the generator you cannot use</h3>
+<p><code>useState("auto")</code> — the mode is fixed regardless of phase. An admin opening a played match to correct one name lands on „Автоматично", finds „Генерирай отбори" greyed out, and has to discover „Ръчно" for himself.</p>
+<div class="fix"><p><b>Fix.</b> Default to „Ръчно" when the line-ups already exist or the match is finished. The generator is for a match that has not been arranged yet.</p></div>
+
+<h3><span class="sev s-med">medium</span>The date field is in American</h3>
+<p><code>type="datetime-local"</code> is rendered by the browser in the <em>browser's</em> locale, not the app's. On this machine it reads <b>08/23/2026, 09:00 PM</b> — month first, twelve-hour — in an app that is Bulgarian everywhere else and whose readers write 23.08.2026, 21:00.</p>
+<div class="fix"><p><b>Fix.</b> Mantine's <code>DateTimePicker</code> with a Bulgarian locale, or keep the native input and print the parsed value beside it in Bulgarian so there is never doubt which number is the month.</p></div>
+
+<h3><span class="sev s-low">low</span>The phase badge is a sentence</h3>
+<p>„ПРИКЛЮЧИЛ — ГЛАСУВАНЕТО Е ОТВОРЕНО" is the longest thing on the screen and reads as two contradictory facts. It is repeated a second time inside the admin box („Сега: …").</p>
+<div class="fix"><p><b>Fix.</b> Two short badges — „Приключил" and „Гласуването тече" — or keep the sentence in the admin box only, where it is an instruction, and shorten the public one.</p></div>
+
+<h3><span class="sev s-low">low</span>Recording the result does not point at what is left</h3>
+<p>Two separate acts both feel like "finishing the match": recording the score, and closing the ballot. After step 3 goes „✓ готово", nothing draws the eye to step 4 — which is the one that awards the podium points and publishes the write-up.</p>
+<div class="fix"><p><b>Fix.</b> When the result is in and the ballot is still open, say what is outstanding where the admin is already looking — one line under step 3, or a marker on step 4.</p></div>
+
+<h2>What I would do, in order</h2>
+<ul>
+  <li><b>The two confirmations</b> — reopening, and saving a lineup on a finished match. Small, and they are the only two places the app changes a published number without telling anybody.</li>
+  <li><b>Hide the generator on a played match</b>, and default to „Ръчно" once sides exist. One line each; removes the two most visible pieces of nonsense on the screen.</li>
+  <li><b>The date field.</b> Bigger than it looks — a native picker in the wrong locale is the sort of thing that makes an admin enter the wrong day.</li>
+  <li><b>The badge and the nudge to step 4</b> — worth doing, not urgent.</li>
+</ul>
+<p>Nothing here needs a schema change and nothing needs a migration. All of it is the match page and the team generator.</p>
+
+<footer>
+Driven against a composed stack: one league, six invented players, one match walked scheduled → sides → result → reveal, with the standings read from the API at each step.
+</footer>
+</div>
+</body>
+</html>
