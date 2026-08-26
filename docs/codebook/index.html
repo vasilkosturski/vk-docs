@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codebook — join requests, admin promotion</title>
+<style>
+  :root{--ink:#1c2733;--ink-soft:#43525f;--paper:#faf6ef;--card:#fff;
+        --line:#e7ddcd;--accent:#c8632f;--ok:#2a8c79;--bad:#cf4b46;
+        --hero:#1b2d33;--hero-ink:#f6efe4;--code-bg:#1b2d33;--code-ink:#e4dccd;}
+  *{box-sizing:border-box}
+  html{color-scheme:light;scrollbar-color:#8f7a60 #ece2d0}
+  ::-webkit-scrollbar{width:13px;height:13px}
+  ::-webkit-scrollbar-track{background:#ece2d0}
+  ::-webkit-scrollbar-thumb{background:#8f7a60;border-radius:7px;border:3px solid #ece2d0}
+  body{margin:0;background:var(--paper);color:var(--ink);line-height:1.6;font-size:16.5px;
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 90px}
+  h1,h2,h3{font-family:Georgia,serif;line-height:1.25}
+  code{background:#f0e7d8;color:var(--ink);padding:1px 5px;border-radius:4px;
+       font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em}
+  pre{background:var(--code-bg);color:var(--code-ink);padding:15px 17px;border-radius:9px;
+      overflow-x:auto;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12.9px;
+      line-height:1.55;margin:0 0 16px}
+  pre code{background:none;color:inherit;padding:0;font-size:inherit}
+  pre .c{color:#8fa6a2}
+  pre .k{color:#e0a878}
+  header.hero{background:var(--hero);color:var(--hero-ink);padding:44px 20px 34px;margin-bottom:32px}
+  .hero-in{max-width:860px;margin:0 auto}
+  .kicker{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+          color:#e0a878;margin:0 0 10px}
+  header.hero h1{margin:0;font-size:31px;color:var(--hero-ink)}
+  .lede{margin:14px 0 0;font-family:Georgia,serif;font-style:italic;font-size:18px;
+        color:#d8cdbc;max-width:62ch}
+  .provenance{margin:20px 0 0;font-family:"SF Mono",Menlo,monospace;font-size:11px;
+              line-height:1.55;color:rgba(246,239,228,.42)}
+  .provenance b{color:rgba(230,185,140,.6);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+  h2{font-size:24px;margin:48px 0 6px;padding-bottom:7px;border-bottom:2px solid var(--line)}
+  h2 .n{color:var(--accent);font-size:14px;letter-spacing:.09em;text-transform:uppercase;
+        display:block;font-family:-apple-system,sans-serif;font-weight:700;margin-bottom:4px}
+  h3{font-size:18px;margin:30px 0 8px}
+  p{margin:0 0 15px}
+  ul{margin:0 0 15px;padding-left:22px}
+  li{margin:0 0 9px}
+  .file{display:inline-block;background:#e9e0d0;color:var(--ink-soft);border:1px solid var(--line);
+        border-radius:6px;padding:2px 9px;font-family:"SF Mono",Menlo,monospace;font-size:12.5px;
+        margin:0 0 8px}
+  .why{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);
+       border-radius:0 9px 9px 0;padding:14px 18px;margin:0 0 18px}
+  .why p:last-child{margin-bottom:0}
+  .why b{color:var(--accent)}
+  .flag{border-left-color:var(--bad)}
+  .flag b{color:var(--bad)}
+  table.api{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:14.5px}
+  table.api td{border-bottom:1px solid var(--line);padding:8px 6px;vertical-align:top}
+  table.api td:first-child{font-family:"SF Mono",Menlo,monospace;font-size:12.5px;white-space:nowrap;
+                           width:1%;padding-right:16px}
+  .gone{color:var(--bad);text-decoration:line-through}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);
+         color:var(--ink-soft);font-size:14px}
+  @media (max-width:640px){
+    body{font-size:16px}
+    header.hero{padding:32px 16px 26px}
+    header.hero h1{font-size:25px}
+    .lede{font-size:16.5px}
+    .wrap{padding:0 16px 60px}
+    h2{font-size:21px}
+    pre{font-size:11.6px;padding:12px 13px}
+    table.api td:first-child{white-space:normal}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-in">
+    <p class="kicker">optimum-stars · codebook</p>
+    <h1>What I changed, and why it is shaped that way</h1>
+    <p class="lede">Thirteen commits across two features: admins promotable by a click, and people able to ask their own way into a league. The code that matters, with the reasoning that produced it.</p>
+    <p class="provenance"><b>range</b> 015c2b9 → f7144ed, my commits only · <b>backend</b> +1080/−77 ·
+      <b>frontend</b> +2216/−249 · <b>infra</b> nothing — no workflow, manifest, Dockerfile or nginx change ·
+      <b>verified</b> 887 backend · 270 frontend · 86 e2e · gates 0</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h2><span class="n">Scope</span>What is mine, and what rode along</h2>
+<p>Thirteen commits. Other sessions pushed into the same window — docstring corrections, test hygiene, a build-context fix — and those are not covered here. Nothing in this change touches infrastructure: no CI workflow, no Kubernetes manifest, no Dockerfile, no nginx config. The only thing that reaches the cluster is a new table, created by the boot migration.</p>
+
+<h3>The two features</h3>
+<ul>
+  <li><b>OSAP</b> — an admin promotes a linked member by pressing his name, instead of typing an address.</li>
+  <li><b>OSJR</b> — a person asks his own way into a league, and an admin rules on it. Ends up as: the admin sends a link.</li>
+</ul>
+
+<h2><span class="n">Backend · 1</span>The data model</h2>
+<span class="file">backend/app/data/models.py</span>
+<pre><code><span class="k">class</span> JoinRequest(Base):
+    __tablename__ = <span class="c">"join_requests"</span>
+
+    group_id: Mapped[int] = mapped_column(ForeignKey(<span class="c">"groups.id"</span>), primary_key=True)
+    user_id:  Mapped[int] = mapped_column(ForeignKey(<span class="c">"users.id"</span>),  primary_key=True)
+
+    user: Mapped[User] = relationship()</code></pre>
+<div class="why">
+  <p><b>Why a second table and not a column, or a reuse of <code>link_requests</code>.</b></p>
+  <p>The existing claim table is keyed <code>(player_id, user_id)</code>, both non-null — it says <em>"I am that man on your sheet"</em> and needs him standing there. A newcomer has no man to name, which is the whole reason this exists. It cannot share that key.</p>
+  <p>A column on <code>players</code> was worse still: an unapproved request sitting on the row the ballot reads is one careless query away from behaving like a link. Same reasoning the claim table was built on.</p>
+  <p>The composite primary key is the "one live request per league" rule, enforced by the database rather than by code — unlike a claim, there is nothing else in the key to make a second row look different.</p>
+</div>
+<p>No hand-written migration. <code>Base.metadata.create_all</code> in <code>migrate_schema</code> creates it, which is additive and idempotent — the repo's convention. Verified on production after promotion: table present, both foreign keys, composite PK, 0 rows.</p>
+
+<h2><span class="n">Backend · 2</span>The seam that stops an orphan player</h2>
+<span class="file">backend/app/data/roster.py</span>
+<pre><code><span class="k">def</span> refuse_unlinkable(session, user, *, other_than=None) -> None:
+    <span class="c">"""Whether this account may be attached to a man here, said once."""</span>
+    <span class="k">if not</span> user.email_verified:
+        <span class="k">raise</span> HTTPException(409, <span class="c">"този акаунт още не е потвърден"</span>)
+    taken = _linked_to(session, user.id, other_than=other_than)
+    <span class="k">if</span> taken <span class="k">is not</span> None:
+        <span class="k">raise</span> HTTPException(409, f<span class="c">"този акаунт вече е свързан с {taken.name}"</span>)</code></pre>
+<div class="why">
+  <p><b>This is an extraction, not new logic.</b> Both checks already lived inside <code>link_user</code>, which runs them at the moment it writes.</p>
+  <p>That ordering is fine for every existing door — they all have a player already. It is wrong for a join approval, which <em>creates</em> the player it is about to link. Discovering afterwards that the account was never eligible leaves a man on the team sheet who exists only because a refusal arrived one line too late.</p>
+  <p>So the question is asked before anything is created. <code>link_user</code> now calls the same function, so there is one copy of the rule and not two.</p>
+</div>
+
+<h2><span class="n">Backend · 3</span>The approval</h2>
+<span class="file">backend/app/data/joins.py</span> — 140 lines, the whole aggregate
+<pre><code><span class="k">def</span> approve_join(session, user_id: int) -> Player:
+    request = get_or_404(session, JoinRequest,
+                         {<span class="c">"group_id"</span>: group_of(session), <span class="c">"user_id"</span>: user_id},
+                         <span class="c">"join request"</span>)
+    refuse_unlinkable(session, request.user)          <span class="c"># before anything exists</span>
+    player = add_player(session, request.user.name)   <span class="c"># the only name we have</span>
+    linked = link_user(session, player, request.user) <span class="c"># every rule, re-read</span>
+    session.delete(request)
+    session.commit()
+    <span class="k">return</span> linked</code></pre>
+<div class="why">
+  <p><b>It routes through <code>link_user</code> rather than writing <code>player.user_id</code> itself.</b> A request can sit in the queue for a week, and in that week the account can lose its verification or be linked to somebody else. Going through the shared door means every refusal it makes still applies at the moment the admin acts, not only at the moment the person asked.</p>
+  <p><b>It takes no <code>player_id</code>.</b> It used to — a picker let the admin say which man on the roster the asker was. That was a real guard while the join request was the only way in. It stopped being one when both doors landed on the league page: a man who <em>is</em> on the sheet names himself there and arrives as a roster claim with his own name on the row. The picker was asking the admin a question the asker had already answered, with a blank field and no way to know what belonged in it. Removed, along with the body model and the endpoint parameter.</p>
+</div>
+
+<h2><span class="n">Backend · 4</span>The API surface</h2>
+<table class="api">
+  <tr><td>POST /api/{slug}/join</td><td>Ask to be let in. <code>RequireUser</code>. Refuses 409 if he already plays here or already asked.</td></tr>
+  <tr><td>DELETE /api/{slug}/join</td><td>Take it back. Keyed on the caller, so it can only ever be his own.</td></tr>
+  <tr><td>GET /api/{slug}/admin/joins</td><td>The queue. Admin-gated, group-scoped.</td></tr>
+  <tr><td>POST /api/{slug}/admin/joins/{user_id}</td><td>Approve. No body.</td></tr>
+  <tr><td>DELETE /api/{slug}/admin/joins/{user_id}</td><td>Reject. 404 if somebody else already ruled.</td></tr>
+  <tr><td>GET /api/{slug}/admin/pending</td><td><code>{joins, claims}</code> — one read for the badge.</td></tr>
+  <tr><td>GET /api/{slug}/me</td><td>Gained <code>join_pending</code>, beside the <code>claim_player_id</code> it is the sibling of.</td></tr>
+  <tr><td>GET /api/admin/users</td><td>Widened: this league's admins <em>plus</em> its own linked players (OSAP).</td></tr>
+  <tr><td class="gone">GET /api/leagues</td><td>Added, shipped, then removed with the directory.</td></tr>
+</table>
+<div class="why">
+  <p><b>The member-facing routes sit on the league router, not under <code>/admin</code>.</b> The person doing it is not an admin — he is a stranger to this league who wants not to be, and the row he writes grants him nothing until one of them says so. Same placement as the existing claim endpoints.</p>
+</div>
+
+<h3>OSAP: nine lines, because the button already existed</h3>
+<span class="file">backend/app/data/accounts.py</span>
+<pre><code>plays_here = {
+    uid: name
+    <span class="k">for</span> uid, name <span class="k">in</span> session.execute(
+        select(Player.user_id, Player.name).where(
+            Player.group_id == group_of(session), Player.user_id.is_not(None)
+        )
+    ).all()
+}
+users = session.scalars(rows <span class="k">if</span> everyone <span class="k">else</span> rows.where(User.id.in_(here | plays_here.keys())))</code></pre>
+<div class="why">
+  <p><b>The frontend already rendered a "Направи админ" button</b> for any row with <code>is_admin === false</code>. <code>load_admin_users</code> only ever returned this league's <em>admins</em>, so for a normal caller that branch was unreachable — the UI existed with no data to act on. Feeding it made the feature appear.</p>
+  <p>The set is the one <code>GET /api/admin/accounts</code> already hands the same caller behind the same gate, so nothing new is exposed. Witnessed: dropping the group scoping fails five tests including both leak guards; dropping only <code>Player.group_id</code> fails exactly the cross-group test written for it.</p>
+</div>
+
+<h2><span class="n">Frontend · 1</span>Two doors on one card</h2>
+<span class="file">frontend/src/components/JoinLeague.tsx</span> — 141 lines
+<pre><code><span class="k">if</span> (!me?.authenticated) <span class="c">// → "Присъедини се", to /auth?next=&lt;this league&gt;</span>
+<span class="k">if</span> (me.is_admin || me.player_id !== null) <span class="k">return</span> null;
+<span class="k">if</span> (claimed !== null)   <span class="c">// → "waiting to be linked to &lt;name&gt;", withdraw</span>
+<span class="k">if</span> (me.join_pending)    <span class="c">// → "waiting", withdraw</span>
+<span class="c">// otherwise → pick yourself off the roster, or ask to join</span></code></pre>
+<div class="why">
+  <p><b>The claim door existed and could not be found.</b> Saying "I am that man" has worked since OSPC, but only from inside a match page's vote widget, after picking yourself out of the "Кой си ти?" list. Somebody looking at the league itself had no way to reach it — so the only door he could find was "let me in as a newcomer", and an admin was left guessing which man he was. The person knows. The app was asking the wrong one.</p>
+  <p><b>The signed-out branch returns a card, not <code>null</code>.</b> It used to return nothing, so a visitor who arrived from a shared link landed on a page with no way in and no explanation.</p>
+</div>
+
+<h2><span class="n">Frontend · 2</span>A count that cannot lie</h2>
+<span class="file">frontend/src/lib/pendingWork.ts</span>
+<pre><code><span class="k">let</span> version = 0;
+<span class="k">const</span> listeners = <span class="k">new</span> Set&lt;() =&gt; <span class="k">void</span>&gt;();
+
+<span class="k">export function</span> workChanged(): <span class="k">void</span> {
+  version += 1;
+  <span class="k">for</span> (<span class="k">const</span> listen <span class="k">of</span> listeners) listen();
+}
+
+<span class="k">export function</span> usePendingCount(isAdmin, slug): number {
+  <span class="k">const</span> version = usePendingWorkVersion();
+  <span class="k">const</span> { data } = useResource(
+    () =&gt; (isAdmin &amp;&amp; slug ? api.pendingWork() : Promise.resolve(null)),
+    [isAdmin, slug, version],
+  );
+  <span class="k">return</span> data ? data.joins + data.claims : 0;
+}</code></pre>
+<div class="why">
+  <p><b>Why a store and not a prop.</b> The badge is in the header; the queues are on a page under it. Neither is the other's parent, and threading a callback from the Shell through the router to a queue component is a prop nobody else needs.</p>
+  <p><b>A version counter, not the count.</b> The server owns the number; caching it here would give two places that can disagree about how much work is waiting. This only says "it changed, go and ask again".</p>
+  <p><b>It exists because the first cut lied.</b> Fetched once, the badge went on claiming work an admin had just finished — the same lie as having no badge, told the other way round. Caught by a browser test, not by review.</p>
+</div>
+
+<h2><span class="n">Frontend · 3</span>The header break I caused</h2>
+<div class="why flag">
+  <p><b>Adding the count beside the Админ badge pushed the account menu off the screen.</b> At 375px the avatar rendered at x=370..404 in a 375-wide window: past the right edge, untappable. Every signed-in journey starts at that control.</p>
+  <p>The suite's existing 375px check could not see it. The header <em>clips</em> rather than grows, so <code>document.documentElement.scrollWidth</code> still read 375 — green, and broken.</p>
+</div>
+<p>Three changes, the last a trade:</p>
+<ul>
+  <li>The count moved onto the avatar's corner — <code>position:absolute</code>, out of the row's width budget entirely, and what a notification actually looks like.</li>
+  <li>The league name caps at 72px instead of 90; the nav gap tightened.</li>
+  <li><b>The "Админ" badge is hidden below <code>sm</code>.</b> It was asserted at phone width by a test written after flex once squeezed it to a green dot. Two guarantees wanted the same 65px. I inverted that assertion rather than deleting it, with the reasoning in place: the badge is a label whose meaning is one tap away in the menu; the menu is not substitutable.</li>
+</ul>
+<p>The suite now measures the account menu against the viewport, since the check it had could not catch this class of break.</p>
+
+<h2><span class="n">Frontend · 4</span>The link, and what it replaced</h2>
+<span class="file">frontend/src/components/ShareLeague.tsx</span>
+<pre><code><span class="k">const</span> link = `${window.location.origin}/${slug}`;</code></pre>
+<div class="why">
+  <p><b>One line, and it is the whole mechanism.</b> The link is the league's own address: nothing is minted, nothing expires, a forwarded one keeps working, and the same one serves next season. Contrast the existing <code>GroupInvite</code>, which mints a token per person and dies when spent — right for "become this specific player", wrong for "here is the group".</p>
+  <p><b>It replaced a public directory.</b> I built <code>/leagues</code> with search, shipped it to production, and then removed it: the link answers "which group?" more directly, and the directory cost a publicly enumerable list of every group on the platform for no benefit. Removed entirely rather than left as a second way in — page, route, endpoint, model, reserved slug, both entry points, asset, six tests, and the router-parse floor that tracked the count.</p>
+</div>
+<div class="why flag">
+  <p><b>Removing it left a live URL claiming an outage.</b> <code>/leagues</code> fell through to <code>/:slug</code>, asked the API for a league called "leagues", and the Shell reads a failed identity call as "Няма връзка със сървъра". Redirected to <code>/groups</code>.</p>
+  <p>That is also what <em>any</em> mistyped league address does today — "server unreachable" rather than "no such league". Pre-existing, not fixed here, and worth its own increment.</p>
+</div>
+
+<h2><span class="n">Tests</span>Where each claim lives, and what was witnessed</h2>
+<ul>
+  <li><b>Rules at API tier</b> — <code>test_join_requests.py</code> (13) and <code>test_admin_candidates.py</code> (4): who is refused, what an approval writes, what a rejection leaves behind.</li>
+  <li><b>Isolation</b> — <code>test_tenant_isolation.py</code>: another league's requests are neither listed nor counted. Its module docstring declared <code>/api/admin/users</code> deliberately unswept; my change falsified that, so the note was rewritten rather than left contradicting the file.</li>
+  <li><b>Component tier</b> — states only, because jsdom does not open a Mantine dropdown. Both suites say so where it matters.</li>
+  <li><b>Browser tier</b> — four journeys, kept to what only a real engine can show: the picker, the account menu, phone width, and that the assets load.</li>
+  <li><b>Not duplicated</b> — 401/403 on <code>/api/admin/users</code> were already asserted in <code>test_api.py</code>; cited rather than rewritten.</li>
+</ul>
+<h3>Mutation witnesses</h3>
+<p>Six, each restored and the file diffed byte-identical afterwards:</p>
+<pre><code>drop the group scoping in load_admin_users   → 5 tests fail (both leak guards)
+drop only Player.group_id                    → 1 fails, the cross-group test
+is_admin = env_admin                         → 2 fail
+pending_joins forgets its league             → isolation fails
+the count forgets its league                 → isolation fails
+the directory names a player                 → 2 fail (before removal)</code></pre>
+
+<h2><span class="n">Review</span>What I would flag</h2>
+<ul>
+  <li><b>Two queues, two near-identical components</b> in <code>PlayersPage</code>. They differ now — the join row has no player and the claim row has two labelled halves — but they were a copy at one point and would merge cleanly if they converge again.</li>
+  <li><b>The badge keeps state outside React.</b> Justified above, but it is global mutable state and counts as such.</li>
+  <li><b>Wrong door still makes a duplicate.</b> Somebody on the roster who presses "Искам да вляза" gets a second row. Recoverable — delete the spare, link the account from the editor — and the card puts naming yourself first to make it rare.</li>
+  <li><b>The roster picker lists already-linked players.</b> The server refuses, but the refusal tells the asker that player has an account. Pre-existing on the match page.</li>
+  <li><b>"Админ" is gone on phones.</b> A real loss, taken deliberately.</li>
+  <li><b><code>frontend/tsconfig.tsbuildinfo</code> is a tracked build artifact</b>, committed by another session. I kept it out of every commit rather than churn it; it wants a <code>git rm --cached</code> and a gitignore line.</li>
+</ul>
+
+<footer>
+Requirements: <code>OSAP_requirements.md</code>, <code>OSJR_requirements.md</code> · The flow with screenshots:
+<a href="../join-requests/">join-requests</a> · Range 015c2b9 → f7144ed, my commits only.
+</footer>
+</div>
+</body>
+</html>
