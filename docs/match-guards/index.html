@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Страницата на мача — какво се промени</title>
+<style>
+  :root{--ink:#1c2733;--ink-soft:#43525f;--paper:#faf6ef;--card:#fff;--line:#e7ddcd;
+        --accent:#c8632f;--ok:#2a8c79;--bad:#cf4b46;--hero:#1b2d33;--hero-ink:#f6efe4;--shot-bg:#e9e0d0;}
+  *{box-sizing:border-box}
+  html{color-scheme:light;scrollbar-color:#8f7a60 #ece2d0}
+  ::-webkit-scrollbar{width:13px;height:13px}
+  ::-webkit-scrollbar-track{background:#ece2d0}
+  ::-webkit-scrollbar-thumb{background:#8f7a60;border-radius:7px;border:3px solid #ece2d0}
+  body{margin:0;background:var(--paper);color:var(--ink);line-height:1.6;font-size:16.5px;
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:780px;margin:0 auto;padding:0 20px 80px}
+  h1,h2{font-family:Georgia,serif;line-height:1.25}
+  code{background:#f0e7d8;color:var(--ink);padding:1px 5px;border-radius:4px;
+       font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em}
+  pre{background:var(--hero);color:#e4dccd;padding:13px 15px;border-radius:9px;overflow-x:auto;
+      font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12.4px;line-height:1.55;margin:0 0 16px}
+  header.hero{background:var(--hero);color:var(--hero-ink);padding:42px 20px 32px;margin-bottom:30px}
+  .hero-in{max-width:780px;margin:0 auto}
+  .kicker{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#e0a878;margin:0 0 10px}
+  header.hero h1{margin:0;font-size:29px;color:var(--hero-ink)}
+  .lede{margin:14px 0 0;font-family:Georgia,serif;font-style:italic;font-size:18px;color:#d8cdbc;max-width:60ch}
+  h2{font-size:22px;margin:44px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--line)}
+  p{margin:0 0 14px} ul{margin:0 0 14px;padding-left:22px} li{margin:0 0 8px}
+  .dialog{background:#eef1f4;border:1px solid #c9d2da;border-radius:12px;padding:0;margin:0 0 18px;
+          box-shadow:0 6px 20px rgba(28,39,51,.16);overflow:hidden;max-width:430px}
+  .dialog .bar{background:#dfe5ea;color:#5b6b78;font-size:12px;padding:7px 14px;
+               font-family:-apple-system,sans-serif;border-bottom:1px solid #c9d2da}
+  .dialog .body{padding:16px 18px;font-size:14.5px;color:var(--ink)}
+  .dialog .btns{display:flex;justify-content:flex-end;gap:9px;padding:0 18px 15px}
+  .dialog .btns span{border:1px solid #b9c3cb;border-radius:6px;padding:5px 15px;font-size:13.5px;background:#fff}
+  .dialog .btns .ok{background:#2f6fdb;color:#fff;border-color:#2f6fdb}
+  .shot{background:var(--shot-bg);border:1px solid var(--line);border-radius:12px;padding:12px;
+        display:flex;justify-content:center;margin:0 0 18px}
+  .shot img{max-width:320px;width:100%;height:auto;border-radius:7px;box-shadow:0 3px 14px rgba(28,39,51,.17)}
+  .fix{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ok);
+       border-radius:0 9px 9px 0;padding:13px 17px;margin:0 0 16px}
+  .fix.warn{border-left-color:var(--bad)}
+  .fix p:last-child{margin-bottom:0}
+  footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:14px}
+  @media (max-width:640px){body{font-size:16px}header.hero{padding:30px 16px 24px}header.hero h1{font-size:23px}
+    .wrap{padding:0 16px 60px}h2{font-size:19px}pre{font-size:11.4px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-in">
+    <p class="kicker">optimum-stars · страницата на мача</p>
+    <h1>Двете предупреждения и какво още се промени</h1>
+    <p class="lede">Всичко е карано през истинско приложение. Самите прозорчета са на браузъра, не на страницата — затова ги няма на снимките, и по-долу пише защо.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h2>Предупреждението при смяна на състава</h2>
+<p>Излиза само когато мачът е приключил. Преди това няма точки, които да се местят.</p>
+<div class="dialog">
+  <div class="bar">golche.bg</div>
+  <div class="body">Мачът е приключил. Смяната на състава променя точките на играчите — който мине в другия отбор, губи или печели точките за победата. Да запазя ли?</div>
+  <div class="btns"><span>Отказ</span><span class="ok">ОК</span></div>
+</div>
+<p>Натиснеш ли „Отказ“, нищо не се записва — проверено, класирането остава същото.</p>
+
+<h2>Предупреждението при отваряне на гласуването</h2>
+<div class="dialog">
+  <div class="bar">golche.bg</div>
+  <div class="body">Докато гласуването е отворено, играчът на мача не е обявен и точките от анкетата изчезват от класирането. Ще се върнат, щом го затвориш пак. Да отворя ли гласуването?</div>
+  <div class="btns"><span>Отказ</span><span class="ok">ОК</span></div>
+</div>
+<p>И точно това прави, ако натиснеш „ОК“ — измерено върху истинска таблица:</p>
+<pre>обявен играч на мача   Антон 6 · Стефан 6 · Ивайло 4 · Радомир 4 · Момчил 3
+след отваряне          Антон 3 · Момчил 3 · Стефан 3 · Ивайло 1 · Радомир 1</pre>
+
+<div class="fix warn">
+  <p><b>Едно нещо, което трябва да знаеш.</b> Това са прозорчета на браузъра, а не на приложението. Текстът е наш и е на български, но бутоните са на браузъра — на телефон с английски език ще пишат „OK“ и „Cancel“, и отгоре ще стои „golche.bg says“. Горните две картинки са рисунка на това как изглежда; истинското прозорче не може да се снима, защото не е част от страницата.</p>
+  <p>Приложението вече ползва същия вид прозорче при изтриване на профил, така че е последователно. Ако искаш, се сменя с прозорче вътре в приложението — изцяло на български, със собствени бутони.</p>
+</div>
+
+<h2>Останалото, което се вижда</h2>
+<div class="shot"><img src="01-played-admin-box.png" alt="Страницата на приключил мач"></div>
+<ul>
+  <li><b>Две къси значки</b> — „Приключил“ и „Гласуването тече“ — вместо едно дълго изречение, което звучеше като две противоречащи си неща.</li>
+  <li><b>Датата, изписана на български</b> над полето: „неделя, 23 август 2026 г. в 21:00“. Самото поле е на браузъра и на английски телефон показва 08/23/2026.</li>
+  <li><b>Няма ги „Автоматично/Ръчно“ и „нужни са поне 10“</b> — генераторът е за мач, който още не е подреден. Отиваш право на съставите.</li>
+  <li><b>Стъпка 4 казва какво остава</b>: „Остава само това — точките от анкетата се дават чак когато затвориш гласуването.“</li>
+</ul>
+
+<footer>
+Карано срещу пълния стек: една лига, шестима измислени играчи, един мач — подреден, изигран, записан, обявен и отворен пак.
+</footer>
+</div>
+</body>
+</html>
