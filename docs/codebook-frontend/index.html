@@ -140,6 +140,20 @@ body.open .scrim{opacity:1;pointer-events:auto}
 body.open .drawer{transform:none;visibility:visible;
   transition:transform .26s cubic-bezier(.4,0,.2,1),visibility 0s 0s}
 @media (prefers-reduced-motion:reduce){.drawer,.scrim{transition:none}}
+/* Wide enough to give the rail its own column: it stays open beside the text
+   instead of covering it, so moving between files costs no gesture. The same
+   `.open` class drives both — overlay under 1000px, dock over it — because two
+   state classes drift the moment one of them is set from somewhere new. */
+@media (min-width:1000px){
+  .scrim{display:none}
+  .drawer{width:19rem;max-width:19rem;border-right:1px solid var(--rule)}
+  body.open .runhead,body.open main{padding-left:19rem}
+  body.open .rail{left:19rem}
+  .runhead,main,.rail{transition:padding-left .26s cubic-bezier(.4,0,.2,1),left .26s cubic-bezier(.4,0,.2,1)}
+}
+@media (min-width:1000px) and (prefers-reduced-motion:reduce){
+  .runhead,main,.rail{transition:none}
+}
 .dr-head{display:flex;align-items:center;justify-content:space-between;height:46px;
   padding:0 .7rem 0 1.15rem;border-bottom:1px solid var(--rule);flex:none;background:var(--head)}
 .dr-title{font-family:var(--ff-d);font-weight:700;font-size:.72rem;letter-spacing:.16em;
@@ -466,13 +480,21 @@ body.open .drawer{transform:none;visibility:visible;
   pick();
 
   var drawer=document.getElementById('drawer');
-  function open(v){
+  function open(v,quiet){
     body.classList.toggle('open',v);
     drawer.setAttribute('aria-hidden',v?'false':'true');
-    if(v) drawer.querySelector('.dr-body').focus();
+    // Not on the opening render: taking focus before the reader has asked for
+    // anything moves the caret off the document he just loaded.
+    if(v&&!quiet) drawer.querySelector('.dr-body').focus();
   }
-  document.getElementById('tocBtn').onclick=function(){open(true)};
-  document.getElementById('drClose').onclick=function(){open(false)};
+  // Docked screens start with the rail out; a phone starts without it, where it
+  // would cover the page. Either way the reader's own last choice wins.
+  var DOCK=matchMedia('(min-width:1000px)');
+  var pref=load('cb.rail');
+  if(pref===null ? DOCK.matches : pref==='1') open(true,true);
+  document.getElementById('tocBtn').onclick=function(){
+    var v=!body.classList.contains('open'); open(v); store('cb.rail',v?'1':'0');};
+  document.getElementById('drClose').onclick=function(){open(false); store('cb.rail','0')};
   document.getElementById('scrim').onclick=function(){open(false)};
   addEventListener('keydown',function(ev){if(ev.key==='Escape') open(false)});
   // On the document, not the drawer: the same contents markup is substituted
@@ -487,7 +509,7 @@ body.open .drawer{transform:none;visibility:visible;
     // dialog instead of a jump. preventDefault keeps every link in the page.
     ev.preventDefault();
     var el=document.getElementById(a.getAttribute('href').slice(1));
-    open(false);
+    if(!DOCK.matches) open(false);
     if(el) scrollTo({top:el.getBoundingClientRect().top+scrollY-HEAD,behavior:'smooth'});},true);
   document.getElementById('aa').onclick=function(){
     si=(si+1)%SIZES.length; root.style.setProperty('--code',SIZES[si]+'px'); store('cb.size',si);};
